@@ -1,0 +1,7 @@
+.idea/
+target/
+nbproject/private/
+target/
+nbactions.xml
+out.txt
+result.txt
