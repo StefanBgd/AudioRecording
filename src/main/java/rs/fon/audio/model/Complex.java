@@ -5,7 +5,7 @@ package rs.fon.audio.model;
  * 
  * Data type for complex numbers.
  * 
- * The data type is "immutable" so once you create and initialize a Complex
+ * The infrastructure type is "immutable" so once you create and initialize a Complex
  * object, you cannot change it. The "final" keyword when declaring re and im
  * enforces this rule, making it a compile-time error to change the .re or .im
  * fields after they've been initialized.

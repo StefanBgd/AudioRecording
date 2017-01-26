@@ -43,8 +43,8 @@ import rs.fon.audio.model.Complex;
 import rs.fon.audio.model.DataPoint;
 import rs.fon.audio.model.FFT;
 
-import org.tritonus.sampled.convert.PCM2PCMConversionProvider;
-import org.tritonus.share.sampled.convert.*;
+import rs.fon.audio.util.conversion.PCM2PCMConversionProvider;
+//import org.tritonus.share.sampled.convert.*;
 
 public class AudioRecognizerWindow extends JFrame {
 
@@ -58,14 +58,14 @@ public class AudioRecognizerWindow extends JFrame {
     long nrSong = 0;
     JTextField fileTextField = null;
 
+    //TODO PORUKA ZA STEFANA -- OVO JE IZMENJENO DA ODGOVARA NASEM DATASETU
     private AudioFormat getFormat() {
-        float sampleRate = 44100;
-        int sampleSizeInBits = 8;
+        float sampleRate = 22050;
+        int sampleSizeInBits = 16;
         int channels = 1; // mono
         boolean signed = true;
-        boolean bigEndian = true;
-        return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed,
-                bigEndian);
+        boolean bigEndian = false;
+        return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
     }
 
     private synchronized SourceDataLine getLine(AudioFormat audioFormat)
@@ -258,7 +258,7 @@ public class AudioRecognizerWindow extends JFrame {
         for (int times = 0; times < amountPossible; times++) {
             Complex[] complex = new Complex[4096];
             for (int i = 0; i < 4096; i++) {
-                // Put the time domain data into a complex number with imaginary
+                // Put the time domain infrastructure into a complex number with imaginary
                 // part as 0:
                 complex[i] = new Complex(audio[(times * 4096) + i], 0);
             }
