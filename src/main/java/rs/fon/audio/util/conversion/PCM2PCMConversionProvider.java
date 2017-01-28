@@ -82,7 +82,7 @@ import rs.fon.audio.util.audio.TSynchronousFilteredAudioInputStream;
 public class PCM2PCMConversionProvider
 	extends TSimpleFormatConversionProvider {
 
-	public static AudioFormat.Encoding PCM_SIGNED=Encodings.getEncoding("PCM_SIGNED");
+	public static AudioFormat.Encoding PCM_SIGNED=Encodings.getEncoding("PCM_SIGNED");	//TODO <----
 	public static AudioFormat.Encoding PCM_UNSIGNED=Encodings.getEncoding("PCM_UNSIGNED");
 
 	private static final int ALL=AudioSystem.NOT_SPECIFIED;

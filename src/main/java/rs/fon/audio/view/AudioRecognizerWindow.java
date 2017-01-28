@@ -102,6 +102,7 @@ public class AudioRecognizerWindow extends JFrame {
 
     }
 
+    //TODO <---
     private void listenSound(long songId, boolean isMatching)
             throws LineUnavailableException, IOException,
             UnsupportedAudioFileException {
@@ -122,7 +123,7 @@ public class AudioRecognizerWindow extends JFrame {
                     formatTmp);
             lineTmp = (TargetDataLine) AudioSystem.getLine(info);
             isMicrophone = true;
-        } else {
+        } else {    //TODO <---
             AudioInputStream in;
 
             if (filePath.contains("http")) {
@@ -151,14 +152,14 @@ public class AudioRecognizerWindow extends JFrame {
 
             din = AudioSystem.getAudioInputStream(decodedFormat, in);
 
-            if (!conversionProvider.isConversionSupported(getFormat(),
-                    decodedFormat)) {
-                System.out.println("Conversion is not supported");
-            }
+//            if (!conversionProvider.isConversionSupported(getFormat(),
+//                    decodedFormat)) {
+//                System.out.println("Conversion is not supported");
+//            }
 
             System.out.println(decodedFormat.toString());
 
-            outDin = conversionProvider.getAudioInputStream(getFormat(), din); //1
+            //outDin = conversionProvider.getAudioInputStream(getFormat(), din); //1
             formatTmp = decodedFormat;
 
             DataLine.Info info = new DataLine.Info(TargetDataLine.class,
@@ -169,7 +170,8 @@ public class AudioRecognizerWindow extends JFrame {
         final AudioFormat format = formatTmp;
         final TargetDataLine line = lineTmp;
         final boolean isMicro = isMicrophone;
-        final AudioInputStream outDinSound = outDin;
+        //final AudioInputStream outDinSound = outDin;
+        final AudioInputStream outDinSound = din;
 
         if (isMicro) {
             try {
@@ -262,7 +264,7 @@ public class AudioRecognizerWindow extends JFrame {
                 // part as 0:
                 complex[i] = new Complex(audio[(times * 4096) + i], 0);
             }
-            // Perform FFT analysis on the chunk:
+            // Perform fft analysis on the chunk:
             results[times] = FFT.fft(complex);
         }
         determineKeyPoints(results, songId, isMatching);
@@ -403,8 +405,8 @@ public class AudioRecognizerWindow extends JFrame {
 
     public void createWindow() {
 
-        this.hashMap = new HashMap<Long, List<DataPoint>>();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.hashMap = new HashMap<Long, List<DataPoint>>();            //TODO videcemo cemu sluzi
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //
         Button buttonStart = new Button("Start");
         Button buttonStop = new Button("Stop");
         Button buttonMatch = new Button("Match");
@@ -414,6 +416,7 @@ public class AudioRecognizerWindow extends JFrame {
 
         fileTextField.setText("enter path to song here");
 
+        //TODO button 'start' action listener <---
         buttonStart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -431,12 +434,14 @@ public class AudioRecognizerWindow extends JFrame {
             }
         });
 
+        //button 'strop' action listener
         buttonStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 running = false;
             }
         });
 
+        //button 'start match' action listener
         buttonStartMatch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -453,12 +458,14 @@ public class AudioRecognizerWindow extends JFrame {
             }
         });
 
+        //button 'stop' action listener
         buttonStopMatch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 running = false;
             }
         });
 
+        //button 'match' action listener
         buttonMatch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 List<DataPoint> listPoints;
@@ -490,6 +497,7 @@ public class AudioRecognizerWindow extends JFrame {
             }
         });
 
+        //setup window
         this.add(buttonStart);
         this.add(buttonStop);
         this.add(buttonStartMatch);

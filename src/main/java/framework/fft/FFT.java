@@ -1,4 +1,4 @@
-package rs.fon.audio.model;
+package framework.fft;
 
 
 /*************************************************************************
