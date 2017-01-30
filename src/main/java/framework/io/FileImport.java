@@ -49,6 +49,10 @@ public class FileImport {
                 baseFormat.getChannels() * 2, baseFormat.getSampleRate(),
                 false);
 
+        System.out.println("SAMPLE RATE: " + decodedFormat.getSampleRate());
+        System.out.println("FPS RATE: " + decodedFormat.getFrameRate());
+        System.out.println("SAMPLES PER FRAME: " + decodedFormat.getSampleRate()/decodedFormat.getFrameRate());
+
         decodedInputStream = AudioSystem.getAudioInputStream(decodedFormat, in);
 
         System.out.println(decodedFormat.toString());
@@ -124,5 +128,18 @@ public class FileImport {
 
     public byte[] getOutByteArray() {
         return outByteArray;
+    }
+
+    public float[] getOutFloatArray() throws IOException {
+        ByteArrayInputStream bas = new ByteArrayInputStream(outByteArray);
+        DataInputStream ds = new DataInputStream(bas);
+
+        float[] fArr = new float[outByteArray.length / 4];  // 4 bytes per float
+        for (int i = 0; i < fArr.length; i++)
+        {
+            fArr[i] = ds.readFloat();
+        }
+
+        return fArr;
     }
 }

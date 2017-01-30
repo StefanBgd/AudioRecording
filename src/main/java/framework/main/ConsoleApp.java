@@ -1,7 +1,13 @@
-package framework.io;
+package framework.main;
+
+import framework.features.MFCC;
+import framework.io.DSP;
+import framework.io.FileImport;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -25,7 +31,10 @@ public class ConsoleApp {
         System.out.println(file.getOutByteArray().length);
 
         DSP fft = new DSP();
-
         fft.ApplyFFT(file.getOutByteArray());
+
+        MFCC mfcc = new MFCC(1, 22050);
+        mfcc.applyMFCC(file.getOutFloatArray());
+
     }
 }

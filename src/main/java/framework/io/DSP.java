@@ -18,16 +18,8 @@ public class DSP {
     double magnitudes[][];  //dimenzije window.count * FREQ_RANGE.count. Za svaki window i svaki freq range belezimo magnitudu.
     long frequencies[][];   //dimenzije window.count * FREQ_RANGE.count. Za svaki window i svaki freq range belezimo frekvenciju.
 
-    /*dimenzije window.count * UPPER_LIMIT. Trenutno se u kodu za svaku frekvenciju za koju postoji max magnitude u nekom freq_range-u stavlja flag 1.
-    dakle po windowu niz od 300 elemenata ima flag na 5 mesta u zavisnosti koja frekvencija je u pitanju.
-    primer: [window1]:
-                    [][][][][1][][][][].....[][1][][][][][][1][]....[][][]...<length=300>
-            [window2]:
-                    [][][][][][][][][][1].....[][][][][1][][].....[][][][][][]....
+    double recordPoints[][];    //dimenzije window.count * UPPER_LIMIT.
 
-    todo UPDATE: flag se postavlja svaki put kada se nadje sledeca veca magnituda, ovo jos treba pogledati zasto se radi i kako
-    */
-    double recordPoints[][];
 
     //odnosi se na frekvenciju
     public final int UPPER_LIMIT = 300;
@@ -57,7 +49,7 @@ public class DSP {
             windows[windowNumber] = FFT.fft(complex);
         }
 
-        determineKeyPoints(windows, 0, false);
+        //determineKeyPoints(windows, 0, false);
     }
 
     private void determineKeyPoints(Complex[][] windows, long songId, boolean isMatching) {
@@ -99,8 +91,6 @@ public class DSP {
             for (int freq = LOWER_LIMIT; freq < UPPER_LIMIT - 1; freq++) {
 
                 // Get the magnitude:
-                // todo - nije mi jasno zasto je drugi argument freq, jer bi trebalo da taj drugi niz ide do 4096, a freq ide samo do upper_limit sto je frekvencija.
-                // todo - Ispada da idemo samo kroz deo niza
                 double mag = Math.log(windows[window][freq].abs() + 1);
 
                 // Find out which frequency range we are in:
@@ -110,7 +100,6 @@ public class DSP {
                 if (mag > magnitudes[window][range]) {
                     magnitudes[window][range] = mag;
                     frequencies[window][range] = freq;
-                    //postavi flag na mestu u nizu kome odgovara visina frekvencije
                     recordPoints[window][freq] = 1;
                 }
             }
