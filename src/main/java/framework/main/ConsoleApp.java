@@ -1,11 +1,13 @@
 package framework.main;
 
+import framework.features.ConstantQ;
 import framework.features.MFCC;
 import framework.io.DSP;
 import framework.io.FileImport;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -34,7 +36,16 @@ public class ConsoleApp {
         fft.ApplyFFT(file.getOutByteArray());
 
         MFCC mfcc = new MFCC(1, 22050);
+        System.out.println("\nMFCC");
         mfcc.applyMFCC(file.getOutFloatArray());
+
+        ConstantQ cq = new ConstantQ(22050, 256, 1024, 12);
+        cq.calculate(fft.getFloatFft(fft.getComplexFft(file.getOutByteArray())));
+        System.out.println("\nConstantQ Coefficients:");
+        cq.getCoefficients();
+        cq.calculateMagintudes(fft.getFloatFft(fft.getComplexFft(file.getOutByteArray())));
+        System.out.println("\nConstantQ Magnitudes:");
+        cq.getMagnitudes();
 
     }
 }

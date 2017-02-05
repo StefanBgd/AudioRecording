@@ -29,7 +29,7 @@ public class DSP {
     public DSP(){
     }
 
-    public void ApplyFFT(byte[] byteArray){
+    public Complex[][] ApplyFFT(byte[] byteArray){
         byte audio[] = byteArray;
         final int totalSize = audio.length;
         int numberOfWindows = totalSize / 4096;
@@ -49,6 +49,7 @@ public class DSP {
             windows[windowNumber] = FFT.fft(complex);
         }
 
+        return windows;
         //determineKeyPoints(windows, 0, false);
     }
 
@@ -136,6 +137,23 @@ public class DSP {
             i++;
         }
         return i;
+    }
+
+    public Complex[][] getComplexFft(byte[] byteArray){
+        return ApplyFFT(byteArray);
+    }
+
+    public float[] getFloatFft(Complex[][] fftData)
+    {
+        float[] floatData = new float[fftData.length * 4096];
+
+        for (int i = 0; i < fftData.length ; i++) {
+            for (int j = 0; j < fftData[i].length; j++) {
+                floatData[i+j] = (float)fftData[i][j].abs();    //re() or abs() ?
+            }
+        }
+
+        return floatData;
     }
 
 }
